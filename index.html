@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    .cuadrado{
+        /*line-height: 6.15vw;*/
+        float: left;
+        background-color: black;
+        text-align: center;
+        /*width: 6.15vw;*/
+        box-sizing: border-box;
+        border: solid;
+        border-color: black;
+        border-width: 1px;
+        /*height: 6.15vw;*/
+    }
+    .cuadrado-hover{
+        background-color:white;
+    }
+</style>
+</head>
+
+<body style="margin: 0px;">
+    <button id='boton'>resetear</button>
+    <div id='contenedor'></div>
+
+<script>
+    
+    function changeColor(e){
+        let reg=/\d+/g
+        let r;
+        let g;
+        let b;
+        
+        if(window.getComputedStyle(e.target, 'backgroundColor').getPropertyValue('background-color')==='rgb(0, 0, 0)' ){
+        let random=[Math.floor(Math.random()*255), Math.floor(Math.random()*255), Math.floor(Math.random()*255)]
+        r=random[0]
+        g=random[1]
+        b=random[2]
+        this.style.backgroundColor=`rgb(${random[0].toString()}, ${random[1].toString()}, ${random[2].toString()})`}
+        else{
+            let color=((window.getComputedStyle(e.target, 'backgroundColor').getPropertyValue('background-color').match(reg)))
+            let colorOscurecido=[parseInt(color[0])-35, parseInt(color[1])-35, parseInt(color[2])-35]
+            this.style.backgroundColor=`rgb(${colorOscurecido[0]}, ${colorOscurecido[1]}, ${colorOscurecido[2]})`//this.style.backgroundColor=
+        }
+    }
+/*for (let i = 0; i < 16*16; i++) {
+    const element = document.createElement('div');
+    element.setAttribute('class','cuadrado')
+    document.getElementById('contenedor').appendChild(element)
+}*/
+let cuadrados=document.getElementsByClassName('cuadrado')
+for(let i=0; i<cuadrados.length;i++){
+    let element=cuadrados[i]
+    //console.log(element)
+    element.addEventListener('mouseover', changeColor)
+    
+}
+function setGrid(input){
+    for (let i = 0; i < input*input; i++) {
+    const element = document.createElement('div');
+    element.setAttribute('class','cuadrado')
+    element.setAttribute('style', `width:${Math.floor(document.documentElement.clientHeight/input)}px; height:${Math.floor(document.documentElement.clientHeight/input)}px`)
+    element.innerHTML=' '
+    document.getElementById('contenedor').appendChild(element)
+    element.addEventListener('mouseover', changeColor)
+    }
+}
+function reset(){
+        let lista=document.getElementsByClassName('cuadrado')
+        for(let i=0; i<lista.length;i++){
+            lista[i].style.backgroundColor='black'
+            lista[i].addEventListener('mouseover', changeColor)
+        }
+    }
+let ingreso=parseInt(prompt('ingrese tamaño grilla'))
+setGrid(ingreso)
+let boton=document.getElementById('boton')
+boton.addEventListener('click', reset)
+
+</script>
+</body>
+</html>
